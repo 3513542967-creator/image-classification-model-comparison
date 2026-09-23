@@ -1,0 +1,29 @@
+{
+  "config": {
+    "dataset": "cifar10",
+    "model": "resnet18",
+    "seed": 42,
+    "image_size": 64,
+    "batch_size": 128,
+    "max_epochs": 40,
+    "min_epochs": 15,
+    "patience": 8,
+    "lr": 0.001
+  },
+  "train_images": 45000,
+  "valid_images": 5000,
+  "test_images": 10000,
+  "parameters": 11181642,
+  "macs_per_image": 148050944,
+  "flops_per_image": 296101888,
+  "epochs_completed": 38,
+  "best_epoch": 30,
+  "best_valid_accuracy": 0.8636,
+  "test_accuracy": 0.8521,
+  "test_loss": 0.9346778043746948,
+  "training_seconds": 1822.0383935449645,
+  "device": "mps",
+  "checkpoint": "checkpoints/full/cifar10/resnet18/best.pt",
+  "history": "results/full/cifar10/resnet18/history.csv",
+  "stop_reason": "validation_plateau"
+}
