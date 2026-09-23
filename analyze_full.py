@@ -37,7 +37,13 @@ def main():
     if not summaries:
         raise RuntimeError("No full experiment summaries found")
     table = pd.DataFrame(summaries)
-    table.to_csv(ROOT / "comparison.csv", index=False)
+    columns = ["dataset", "model", "train_images", "valid_images", "test_images",
+               "test_accuracy", "best_valid_accuracy", "parameters", "flops_per_image",
+               "epochs_completed", "best_epoch", "training_seconds", "epoch_to_95pct_best",
+               "minutes_to_95pct_best", "stable_epoch_at_95pct_best",
+               "minutes_to_stable_95pct_best", "above_chance_accuracy_per_million_params",
+               "accuracy_per_gflop", "stop_reason", "device"]
+    table[columns].to_csv(ROOT / "comparison.csv", index=False)
     figures = ROOT / "figures"
     figures.mkdir(exist_ok=True)
     for dataset, subset in table.groupby("dataset"):
@@ -69,6 +75,21 @@ def main():
         axes[0].tick_params(axis="x", rotation=25)
         fig.suptitle(dataset); fig.tight_layout()
         fig.savefig(figures / f"efficiency_{dataset}.png", dpi=160); plt.close(fig)
+
+        fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
+        axes[0].bar(subset.model, subset.epochs_completed)
+        axes[0].set(ylabel="Epochs", title="Training epochs")
+        axes[1].bar(subset.model, subset.training_seconds / 3600)
+        axes[1].set(ylabel="Hours", title="Total training time")
+        axes[2].bar(subset.model, subset.above_chance_accuracy_per_million_params * 100)
+        axes[2].set(ylabel="Percentage points / million parameters",
+                    title="Above-chance accuracy per parameter")
+        for axis in axes:
+            axis.tick_params(axis="x", rotation=25)
+            axis.grid(axis="y", alpha=.25)
+        fig.suptitle(dataset); fig.tight_layout()
+        fig.savefig(figures / f"training_{dataset}.png", dpi=160); plt.close(fig)
+
         for _, item in subset.iterrows():
             history = histories[(dataset, item.model)]
             fig, axes = plt.subplots(1, 2, figsize=(11, 4))

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "dataset": "tiny_imagenet",
+    "model": "vit_tiny",
+    "seed": 42,
+    "image_size": 64,
+    "batch_size": 128,
+    "max_epochs": 40,
+    "min_epochs": 15,
+    "patience": 8,
+    "lr": 0.001
+  },
+  "train_images": 90000,
+  "valid_images": 10000,
+  "test_images": 10000,
+  "parameters": 5427080,
+  "macs_per_image": 366913536,
+  "flops_per_image": 733827072,
+  "epochs_completed": 31,
+  "best_epoch": 23,
+  "best_valid_accuracy": 0.3129,
+  "test_accuracy": 0.3084,
+  "test_loss": 3.964470594787598,
+  "training_seconds": 9734.712465001736,
+  "device": "mps",
+  "checkpoint": "checkpoints/full/tiny_imagenet/vit_tiny/best.pt",
+  "history": "results/full/tiny_imagenet/vit_tiny/history.csv",
+  "stop_reason": "validation_plateau"
+}
