@@ -8,7 +8,8 @@ from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 from PIL import Image
 
-TINY_URL = "http://cs231n.stanford.edu/tiny-imagenet-200.zip"
+TINY_URL = "https://cs231n.stanford.edu/tiny-imagenet-200.zip"
+CIFAR10_URL = "https://data.brainchip.com/dataset-mirror/cifar10/cifar-10-python.tar.gz"
 
 
 class TinyImageNet(Dataset):
@@ -71,6 +72,7 @@ def get_datasets(name, data_dir="data", image_size=224):
         transforms.Resize((image_size, image_size)), transforms.ToTensor(), normalize,
     ])
     if name == "cifar10":
+        datasets.CIFAR10.url = CIFAR10_URL
         train = datasets.CIFAR10(data_dir, train=True, download=True, transform=train_transform)
         valid = datasets.CIFAR10(data_dir, train=False, download=True, transform=eval_transform)
         class_names = train.classes

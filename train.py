@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from torch import nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Subset
 from tqdm import tqdm
 
 from data_utils import get_datasets
@@ -70,6 +70,10 @@ def train(args):
     device = choose_device(args.device)
     print(f"Device: {device}")
     train_data, valid_data, classes = get_datasets(args.dataset, args.data_dir)
+    if args.max_train:
+        train_data = Subset(train_data, range(min(args.max_train, len(train_data))))
+    if args.max_valid:
+        valid_data = Subset(valid_data, range(min(args.max_valid, len(valid_data))))
     pin = device.type == "cuda"
     train_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True,
                               num_workers=args.workers, pin_memory=pin)
@@ -125,6 +129,8 @@ def main():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="auto", help="auto, cpu, cuda, or mps")
     parser.add_argument("--workers", type=int, default=2)
+    parser.add_argument("--max-train", type=int, default=0, help="Optional quick-run limit; 0 uses all training images")
+    parser.add_argument("--max-valid", type=int, default=0, help="Optional quick-run limit; 0 uses all validation images")
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--output-dir", default="results")
     parser.add_argument("--checkpoint-dir", default="checkpoints")

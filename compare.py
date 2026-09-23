@@ -20,6 +20,8 @@ def main():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="auto")
     parser.add_argument("--workers", type=int, default=2)
+    parser.add_argument("--max-train", type=int, default=0)
+    parser.add_argument("--max-valid", type=int, default=0)
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--output-dir", default="results")
     parser.add_argument("--checkpoint-dir", default="checkpoints")
