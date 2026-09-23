@@ -1,0 +1,18 @@
+{
+  "dataset": "cifar10",
+  "model": "vit_tiny",
+  "classes": 10,
+  "epochs": 1,
+  "train_images": 2000,
+  "valid_images": 500,
+  "subset_run": true,
+  "best_valid_accuracy": 0.196,
+  "parameters": 5526346,
+  "macs_per_image": 1253493120,
+  "flops_per_image": 2506986240,
+  "training_seconds": 41.35512185096741,
+  "device": "mps",
+  "seed": 42,
+  "checkpoint": "checkpoints/cifar10/vit_tiny.pt",
+  "log": "results/logs/cifar10_vit_tiny.csv"
+}

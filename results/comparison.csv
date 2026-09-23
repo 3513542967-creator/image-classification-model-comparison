@@ -1,0 +1,9 @@
+dataset,model,classes,epochs,train_images,valid_images,subset_run,best_valid_accuracy,parameters,macs_per_image,flops_per_image,training_seconds,device,seed,checkpoint,log
+cifar10,resnet18,10,1,2000,500,True,0.188,11181642,1813566464,3627132928,38.12416982650757,mps,42,checkpoints/cifar10/resnet18.pt,results/logs/cifar10_resnet18.csv
+cifar10,resnet34,10,1,2000,500,True,0.16,21289802,3663254528,7326509056,47.253297090530396,mps,42,checkpoints/cifar10/resnet34.pt,results/logs/cifar10_resnet34.csv
+cifar10,mobilenet_v3_small,10,1,2000,500,True,0.104,1528106,55496640,110993280,36.12363004684448,mps,42,checkpoints/cifar10/mobilenet_v3_small.pt,results/logs/cifar10_mobilenet_v3_small.csv
+cifar10,vit_tiny,10,1,2000,500,True,0.196,5526346,1253493120,2506986240,41.35512185096741,mps,42,checkpoints/cifar10/vit_tiny.pt,results/logs/cifar10_vit_tiny.csv
+tiny_imagenet,resnet18,200,1,2000,500,True,0.012,11279112,1813663744,3627327488,43.718092918395996,mps,42,checkpoints/tiny_imagenet/resnet18.pt,results/logs/tiny_imagenet_resnet18.csv
+tiny_imagenet,resnet34,200,1,2000,500,True,0.006,21387272,3663351808,7326703616,56.19462585449219,mps,42,checkpoints/tiny_imagenet/resnet34.pt,results/logs/tiny_imagenet_resnet34.csv
+tiny_imagenet,mobilenet_v3_small,200,1,2000,500,True,0.006,1722856,55691200,111382400,31.367499113082886,mps,42,checkpoints/tiny_imagenet/mobilenet_v3_small.pt,results/logs/tiny_imagenet_mobilenet_v3_small.csv
+tiny_imagenet,vit_tiny,200,1,2000,500,True,0.02,5563016,1253529600,2507059200,44.25902700424194,mps,42,checkpoints/tiny_imagenet/vit_tiny.pt,results/logs/tiny_imagenet_vit_tiny.csv

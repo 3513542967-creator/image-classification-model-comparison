@@ -71,9 +71,11 @@ def train(args):
     print(f"Device: {device}")
     train_data, valid_data, classes = get_datasets(args.dataset, args.data_dir)
     if args.max_train:
-        train_data = Subset(train_data, range(min(args.max_train, len(train_data))))
+        indices = random.sample(range(len(train_data)), min(args.max_train, len(train_data)))
+        train_data = Subset(train_data, indices)
     if args.max_valid:
-        valid_data = Subset(valid_data, range(min(args.max_valid, len(valid_data))))
+        indices = random.sample(range(len(valid_data)), min(args.max_valid, len(valid_data)))
+        valid_data = Subset(valid_data, indices)
     pin = device.type == "cuda"
     train_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True,
                               num_workers=args.workers, pin_memory=pin)
@@ -110,7 +112,9 @@ def train(args):
         writer = csv.DictWriter(f, fieldnames=rows[0].keys()); writer.writeheader(); writer.writerows(rows)
     save_curves(rows, figure_dir / f"{args.dataset}_{args.model}.png", f"{args.model} on {args.dataset}")
     result = {"dataset": args.dataset, "model": args.model, "classes": len(classes),
-              "epochs": args.epochs, "best_valid_accuracy": best_acc, "parameters": params,
+              "epochs": args.epochs, "train_images": len(train_data), "valid_images": len(valid_data),
+              "subset_run": bool(args.max_train or args.max_valid),
+              "best_valid_accuracy": best_acc, "parameters": params,
               "macs_per_image": macs, "flops_per_image": macs * 2,
               "training_seconds": elapsed, "device": str(device), "seed": args.seed,
               "checkpoint": str(checkpoint_dir / f"{args.model}.pt"), "log": str(log_path)}

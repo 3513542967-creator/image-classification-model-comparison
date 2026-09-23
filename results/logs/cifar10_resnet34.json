@@ -1,0 +1,18 @@
+{
+  "dataset": "cifar10",
+  "model": "resnet34",
+  "classes": 10,
+  "epochs": 1,
+  "train_images": 2000,
+  "valid_images": 500,
+  "subset_run": true,
+  "best_valid_accuracy": 0.16,
+  "parameters": 21289802,
+  "macs_per_image": 3663254528,
+  "flops_per_image": 7326509056,
+  "training_seconds": 47.253297090530396,
+  "device": "mps",
+  "seed": 42,
+  "checkpoint": "checkpoints/cifar10/resnet34.pt",
+  "log": "results/logs/cifar10_resnet34.csv"
+}

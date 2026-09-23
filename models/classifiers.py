@@ -40,7 +40,8 @@ def estimate_macs(model: nn.Module, image_size: int = 224) -> int:
         if isinstance(module, (nn.Conv2d, nn.Linear, nn.MultiheadAttention)):
             hooks.append(module.register_forward_hook(add_macs))
     try:
-        model.eval()( torch.zeros(1, 3, image_size, image_size))
+        device = next(model.parameters()).device
+        model.eval()(torch.zeros(1, 3, image_size, image_size, device=device))
     finally:
         for hook in hooks:
             hook.remove()

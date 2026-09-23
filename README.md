@@ -21,7 +21,7 @@ python train.py --dataset cifar10 --model resnet18 --epochs 5
 python compare.py --epochs 5
 ```
 
-每个模型依次在两个数据集上训练。可用 `--models resnet18 mobilenet_v3_small` 或 `--datasets cifar10` 缩小实验。默认种子为 42；可用 `--device auto|cpu|cuda|mps` 选择设备。
+每个模型依次在两个数据集上训练。可用 `--models resnet18 mobilenet_v3_small` 或 `--datasets cifar10` 缩小实验。默认种子为 42；可用 `--device auto|cpu|cuda|mps` 选择设备。若只想快速试运行，可加 `--max-train 2000 --max-valid 500`，脚本会从每个数据集固定种子抽取样本；省略这两个参数就使用全量数据。
 
 ## 项目结构
 
@@ -34,7 +34,7 @@ results/      训练日志、指标表和对比图（提交轻量结果文件）
  compare.py   批量实验入口
 ```
 
-每次训练会保存 `checkpoints/<dataset>/<model>.pt`（模型权重及配置）、`results/logs/` 下的逐轮 CSV 和 JSON 指标，以及 `results/figures/` 下的损失/准确率曲线。完整对比结束后会输出汇总表和准确率、参数/FLOPs、训练耗时对比图。
+每次训练会保存 `checkpoints/<dataset>/<model>.pt`（模型权重及配置）、`results/logs/` 下的逐轮 CSV 和 JSON 指标，以及 `results/figures/` 下的损失/准确率曲线。完整对比结束后会输出汇总表和准确率、参数/FLOPs、训练耗时对比图。仓库附有一组快速演示结果：每个模型每个数据集用 2,000 张训练图、500 张验证图训练 1 轮。它用于展示流程和产物格式，不代表充分训练后的基准成绩；完整实验请使用默认全量数据和更多轮数。权重打包文件发布在 GitHub Releases。
 
 ## 说明
 
@@ -42,3 +42,13 @@ results/      训练日志、指标表和对比图（提交轻量结果文件）
 - 默认训练采用 AdamW 与交叉熵，按验证准确率保存最佳权重。所有模型从头训练，不加载预训练权重，以保持实验条件清晰。
 - 参数量和计算量是模型结构的静态估算；训练耗时受设备影响。比较实验建议固定设备、随机种子和轮数。
 - 权重文件较大，Git 默认忽略 `checkpoints/` 和数据，避免把大型二进制文件写入仓库历史。训练日志与图表保存在 `results/`。发布权重时，将 `checkpoints/` 压缩后附加到 GitHub Release。
+
+## 快速演示图
+
+CIFAR-10：
+
+![CIFAR-10 模型对比](results/figures/comparison_cifar10.png)
+
+Tiny ImageNet：
+
+![Tiny ImageNet 模型对比](results/figures/comparison_tiny_imagenet.png)

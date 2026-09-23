@@ -1,0 +1,18 @@
+{
+  "dataset": "tiny_imagenet",
+  "model": "resnet34",
+  "classes": 200,
+  "epochs": 1,
+  "train_images": 2000,
+  "valid_images": 500,
+  "subset_run": true,
+  "best_valid_accuracy": 0.006,
+  "parameters": 21387272,
+  "macs_per_image": 3663351808,
+  "flops_per_image": 7326703616,
+  "training_seconds": 56.19462585449219,
+  "device": "mps",
+  "seed": 42,
+  "checkpoint": "checkpoints/tiny_imagenet/resnet34.pt",
+  "log": "results/logs/tiny_imagenet_resnet34.csv"
+}

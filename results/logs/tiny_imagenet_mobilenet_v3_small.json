@@ -1,0 +1,18 @@
+{
+  "dataset": "tiny_imagenet",
+  "model": "mobilenet_v3_small",
+  "classes": 200,
+  "epochs": 1,
+  "train_images": 2000,
+  "valid_images": 500,
+  "subset_run": true,
+  "best_valid_accuracy": 0.006,
+  "parameters": 1722856,
+  "macs_per_image": 55691200,
+  "flops_per_image": 111382400,
+  "training_seconds": 31.367499113082886,
+  "device": "mps",
+  "seed": 42,
+  "checkpoint": "checkpoints/tiny_imagenet/mobilenet_v3_small.pt",
+  "log": "results/logs/tiny_imagenet_mobilenet_v3_small.csv"
+}

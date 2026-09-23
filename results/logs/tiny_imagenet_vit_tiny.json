@@ -1,0 +1,18 @@
+{
+  "dataset": "tiny_imagenet",
+  "model": "vit_tiny",
+  "classes": 200,
+  "epochs": 1,
+  "train_images": 2000,
+  "valid_images": 500,
+  "subset_run": true,
+  "best_valid_accuracy": 0.02,
+  "parameters": 5563016,
+  "macs_per_image": 1253529600,
+  "flops_per_image": 2507059200,
+  "training_seconds": 44.25902700424194,
+  "device": "mps",
+  "seed": 42,
+  "checkpoint": "checkpoints/tiny_imagenet/vit_tiny.pt",
+  "log": "results/logs/tiny_imagenet_vit_tiny.csv"
+}

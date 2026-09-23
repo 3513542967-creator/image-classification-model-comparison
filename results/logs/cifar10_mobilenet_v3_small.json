@@ -1,0 +1,18 @@
+{
+  "dataset": "cifar10",
+  "model": "mobilenet_v3_small",
+  "classes": 10,
+  "epochs": 1,
+  "train_images": 2000,
+  "valid_images": 500,
+  "subset_run": true,
+  "best_valid_accuracy": 0.104,
+  "parameters": 1528106,
+  "macs_per_image": 55496640,
+  "flops_per_image": 110993280,
+  "training_seconds": 36.12363004684448,
+  "device": "mps",
+  "seed": 42,
+  "checkpoint": "checkpoints/cifar10/mobilenet_v3_small.pt",
+  "log": "results/logs/cifar10_mobilenet_v3_small.csv"
+}
