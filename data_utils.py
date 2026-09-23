@@ -1,10 +1,10 @@
 """Dataset loading helpers kept in one place for beginner-friendly experiments."""
-import os
 import urllib.request
 import zipfile
 from pathlib import Path
 
-from torch.utils.data import Dataset
+import torch
+from torch.utils.data import Dataset, Subset
 from torchvision import datasets, transforms
 from PIL import Image
 
@@ -22,13 +22,13 @@ class TinyImageNet(Dataset):
         self.samples = []
         if split == "train":
             for name in self.classes:
-                for path in (self.root / "train" / name / "images").glob("*.JPEG"):
+                for path in sorted((self.root / "train" / name / "images").glob("*.JPEG")):
                     self.samples.append((path, self.class_to_idx[name]))
         else:
             annotations = self.root / "val" / "val_annotations.txt"
             labels = {line.split("\t")[0]: self.class_to_idx[line.split("\t")[1]]
                       for line in annotations.read_text().splitlines()}
-            for path in (self.root / "val" / "images").glob("*.JPEG"):
+            for path in sorted((self.root / "val" / "images").glob("*.JPEG")):
                 if path.name in labels:
                     self.samples.append((path, labels[path.name]))
         if not self.samples:
@@ -84,3 +84,34 @@ def get_datasets(name, data_dir="data", image_size=224):
     else:
         raise ValueError(f"Unknown dataset: {name}")
     return train, valid, class_names
+
+
+def get_experiment_datasets(name, data_dir="data", image_size=64, seed=42):
+    """Training, held-out validation, and final test sets with separate transforms."""
+    normalize = transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+    train_transform = transforms.Compose([
+        transforms.Resize((image_size, image_size)),
+        transforms.RandomHorizontalFlip(), transforms.ToTensor(), normalize,
+    ])
+    eval_transform = transforms.Compose([
+        transforms.Resize((image_size, image_size)), transforms.ToTensor(), normalize,
+    ])
+    if name == "cifar10":
+        datasets.CIFAR10.url = CIFAR10_URL
+        train_source = datasets.CIFAR10(data_dir, train=True, download=True, transform=train_transform)
+        valid_source = datasets.CIFAR10(data_dir, train=True, download=True, transform=eval_transform)
+        test = datasets.CIFAR10(data_dir, train=False, download=True, transform=eval_transform)
+        class_names = train_source.classes
+    elif name == "tiny_imagenet":
+        ensure_tiny_imagenet(data_dir)
+        train_source = TinyImageNet(data_dir, "train", train_transform)
+        valid_source = TinyImageNet(data_dir, "train", eval_transform)
+        test = TinyImageNet(data_dir, "val", eval_transform)
+        class_names = train_source.classes
+    else:
+        raise ValueError(f"Unknown dataset: {name}")
+    indices = torch.randperm(len(train_source), generator=torch.Generator().manual_seed(seed)).tolist()
+    valid_count = len(indices) // 10
+    train = Subset(train_source, indices[valid_count:])
+    valid = Subset(valid_source, indices[:valid_count])
+    return train, valid, test, class_names

@@ -6,13 +6,14 @@ from .mobilenetv3 import build_mobilenet_v3_small
 from .vit import VisionTransformer
 
 
-def build_model(name: str, num_classes: int) -> nn.Module:
+def build_model(name: str, num_classes: int, image_size: int = 224) -> nn.Module:
     if name.startswith("resnet"):
         return build_resnet(name, num_classes)
     if name == "mobilenet_v3_small":
         return build_mobilenet_v3_small(num_classes)
     if name == "vit_tiny":
-        return VisionTransformer(num_classes)
+        return VisionTransformer(num_classes, image_size=image_size,
+                                 patch_size=8 if image_size <= 64 else 16)
     raise ValueError(f"Unknown model: {name}")
 
 

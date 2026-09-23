@@ -3,7 +3,7 @@ from torch import nn
 
 
 class VisionTransformer(nn.Module):
-    """Compact ViT-Tiny: 12 layers, width 192, 3 heads, 16px patches."""
+    """Compact ViT-Tiny: 12 layers, width 192, 3 heads."""
     def __init__(self, num_classes, image_size=224, patch_size=16, width=192, layers=12, heads=3):
         super().__init__()
         self.patch = nn.Conv2d(3, width, kernel_size=patch_size, stride=patch_size)
