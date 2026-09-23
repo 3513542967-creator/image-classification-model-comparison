@@ -1,0 +1,6 @@
+cff-version: 1.2.0
+message: "If you use this project, please cite it as:"
+title: "Beginner Image Classification Model Comparison"
+version: 1.0.0
+authors:
+  - family-names: Ouyang
