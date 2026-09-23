@@ -1,0 +1,29 @@
+{
+  "config": {
+    "dataset": "tiny_imagenet",
+    "model": "resnet34",
+    "seed": 42,
+    "image_size": 64,
+    "batch_size": 128,
+    "max_epochs": 40,
+    "min_epochs": 15,
+    "patience": 8,
+    "lr": 0.001
+  },
+  "train_images": 90000,
+  "valid_images": 10000,
+  "test_images": 10000,
+  "parameters": 21387272,
+  "macs_per_image": 299143168,
+  "flops_per_image": 598286336,
+  "epochs_completed": 27,
+  "best_epoch": 19,
+  "best_valid_accuracy": 0.3858,
+  "test_accuracy": 0.3799,
+  "test_loss": 4.622124724960327,
+  "training_seconds": 3924.430814500316,
+  "device": "mps",
+  "checkpoint": "checkpoints/full/tiny_imagenet/resnet34/best.pt",
+  "history": "results/full/tiny_imagenet/resnet34/history.csv",
+  "stop_reason": "validation_plateau"
+}
