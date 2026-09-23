@@ -1,0 +1,29 @@
+{
+  "config": {
+    "dataset": "cifar10",
+    "model": "vit_tiny",
+    "seed": 42,
+    "image_size": 64,
+    "batch_size": 128,
+    "max_epochs": 40,
+    "min_epochs": 15,
+    "patience": 8,
+    "lr": 0.001
+  },
+  "train_images": 45000,
+  "valid_images": 5000,
+  "test_images": 10000,
+  "parameters": 5390410,
+  "macs_per_image": 366877056,
+  "flops_per_image": 733754112,
+  "epochs_completed": 40,
+  "best_epoch": 40,
+  "best_valid_accuracy": 0.7568,
+  "test_accuracy": 0.744,
+  "test_loss": 0.9905834293365479,
+  "training_seconds": 6226.429048126098,
+  "device": "mps",
+  "checkpoint": "checkpoints/full/cifar10/vit_tiny/best.pt",
+  "history": "results/full/cifar10/vit_tiny/history.csv",
+  "stop_reason": "max_epochs"
+}
