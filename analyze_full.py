@@ -18,12 +18,20 @@ def main():
         history = pd.read_csv(path.parent / "history.csv")
         threshold = result["best_valid_accuracy"] * 0.95
         reached = history.loc[history.valid_accuracy >= threshold].iloc[0]
+        stable = history.iloc[next(
+            index for index in range(len(history))
+            if (history.valid_accuracy.iloc[index:] >= threshold).all())]
         result["epoch_to_95pct_best"] = int(reached.epoch)
         result["minutes_to_95pct_best"] = float(reached.elapsed_seconds / 60)
+        result["stable_epoch_at_95pct_best"] = int(stable.epoch)
+        result["minutes_to_stable_95pct_best"] = float(stable.elapsed_seconds / 60)
         result["accuracy_per_million_params"] = result["test_accuracy"] / (result["parameters"] / 1e6)
         result["accuracy_per_gflop"] = result["test_accuracy"] / (result["flops_per_image"] / 1e9)
         result["dataset"] = result["config"]["dataset"]
         result["model"] = result["config"]["model"]
+        chance_accuracy = 0.1 if result["dataset"] == "cifar10" else 0.005
+        result["above_chance_accuracy_per_million_params"] = (
+            result["test_accuracy"] - chance_accuracy) / (result["parameters"] / 1e6)
         summaries.append(result)
         histories[(result["dataset"], result["model"])] = history
     if not summaries:
@@ -61,6 +69,21 @@ def main():
         axes[0].tick_params(axis="x", rotation=25)
         fig.suptitle(dataset); fig.tight_layout()
         fig.savefig(figures / f"efficiency_{dataset}.png", dpi=160); plt.close(fig)
+        for _, item in subset.iterrows():
+            history = histories[(dataset, item.model)]
+            fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+            axes[0].plot(history.epoch, history.train_accuracy * 100, label="train")
+            axes[0].plot(history.epoch, history.valid_accuracy * 100, label="validation")
+            axes[0].set(xlabel="Epoch", ylabel="Accuracy (%)", title="Accuracy")
+            axes[1].plot(history.epoch, history.train_loss, label="train")
+            axes[1].plot(history.epoch, history.valid_loss, label="validation")
+            axes[1].set(xlabel="Epoch", ylabel="Cross-entropy loss", title="Loss")
+            for axis in axes:
+                axis.legend(); axis.grid(alpha=.25)
+            fig.suptitle(f"{dataset} / {item.model}")
+            fig.tight_layout()
+            fig.savefig(figures / f"learning_{dataset}_{item.model}.png", dpi=160)
+            plt.close(fig)
     print(f"Saved full results to {ROOT / 'comparison.csv'}")
 
 
